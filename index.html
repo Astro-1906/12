@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: rgb(0, 0, 0);
+      position: relative;
+    }
+  
+    .star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background-color: white;
+      opacity: 0.5;
+    }
+  
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      opacity: 1;
+      animation: fadeIn 1s forwards;
+    }
+  
+    .arrow-container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      cursor: pointer;
+      animation: fadeIn 1s forwards;
+    }
+  
+    .arrow {
+      width: 30px;
+      height: 30px;
+      border-left: 2px solid white;
+      border-bottom: 2px solid white;
+      transform: rotate(-45deg);
+      margin-top: 10px; /* Espacio entre el mensaje y la flecha */
+    }
+  
+  
+    .floating-message {
+      position: absolute;
+      color: white;
+      font-size: 18px;
+      opacity: 0.8;
+      animation: fadeInAndOut 3s forwards;
+    }
+  
+    @keyframes fadeInAndOut {
+      0%, 100% {
+        opacity: 0.8;
+      }
+      10%, 90% {
+        opacity: 1;
+      }
+    }
+    /* Nuevos estilos para los mensajes a desvanecer */
+    .fadeOut {
+      animation: fadeOut 3s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        display: none;
+      }
+    }
+  </style>
+  <title>Floating Messages</title>
+</head>
+<body>
+
+<div class="message-container">
+  <div class="message">¿Estas segura?
+    <p>No habra vuelta atras.</p>
+  </div>
+  <div class="arrow-container">
+    <div class="arrow"></div>
+  </div>
+</div>
+
+  <!-- Mensajes 1 al 8 -->
+  <div class="floating-message" style="left: 10%; top: 10%;">Lo siento</div>
+  <div class="floating-message" style="left: 70%; top: 30%;">Te quiero</div>
+  <div class="floating-message" style="left: 40%; top: 60%;">Perdon</div>
+  <div class="floating-message" style="left: 20%; top: 50%;">Lo siento</div>
+  <div class="floating-message" style="left: 30%; top: 80%;">Te quiero</div>
+  <div class="floating-message" style="left: 47%; top: 20%;">¿Esta bien decirlo?</div>
+  <div class="floating-message" style="left: 60%; top: 60%;">Bueno</div>
+  <div class="floating-message" style="left: 80%; top: 20%;">:(</div>
+
+  <script>
+    // ... Código JavaScript anterior ...
+
+    
+  
+    const floatingMessages = document.querySelectorAll('.floating-message');
+
+  function fadeInAndOutMessageSequentially(messages, index) {
+    if (index < messages.length) {
+      setTimeout(() => {
+        messages[index].classList.add('fadeInAndOut'); // Agregar la clase de animación para aparecer
+        setTimeout(() => {
+          messages[index].classList.add('fadeOut'); // Agregar la clase de animación para desvanecer
+          fadeInAndOutMessageSequentially(messages, index + 1);
+        }, 300); // Duración de aparición del mensaje (en milisegundos)
+      }, 150); // Delay entre cada mensaje (en milisegundos)
+    }
+  }
+
+  fadeInAndOutMessageSequentially(floatingMessages, 0);
+
+    function createStar() {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.left = `${Math.random() * window.innerWidth}px`;
+      star.style.top = `${Math.random() * window.innerHeight}px`;
+      document.body.appendChild(star);
+  
+      const speed = Math.random() * 2 + 1;
+  
+      setInterval(() => {
+        const currentLeft = parseFloat(star.style.left);
+        const newLeft = currentLeft + speed;
+        if (newLeft > window.innerWidth) {
+          star.style.left = '0px';
+          star.style.top = `${Math.random() * window.innerHeight}px`;
+        } else {
+          star.style.left = `${newLeft}px`;
+        }
+      }, 10); // Adjust the interval for smoother animation
+    }
+  
+    for (let i = 0; i < 100; i++) {
+      createStar();
+    }
+  
+    const messageContainer = document.querySelector('.message-container');
+    const arrowContainer = document.querySelector('.arrow-container');
+    const arrow = document.querySelector('.arrow');
+  
+    messageContainer.addEventListener('animationend', () => {
+      arrowContainer.style.display = 'flex';
+      arrow.style.opacity = '1'; /* Mostrar la flecha */
+    });
+  
+    
+  
+    arrowContainer.addEventListener('click', () => {
+      // Aquí puedes agregar la acción que desees al hacer clic en la flecha
+      window.location.href = 'https://astro-1906.github.io/3pages/';
+    });
+  </script>
+</body>
+</html>
